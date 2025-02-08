@@ -99,6 +99,8 @@
 #define ARMV8_DIT_ALLOWED (1 << 16)
 
 
+#define ARMV8_AMPEREONE (1 << 17)
+
 //
 // MIDR_EL1 system register
 //
@@ -109,6 +111,7 @@
 //
 
 # define ARM_CPU_IMP_ARM           0x41
+# define ARM_CPU_IMP_AMPERE        0xC0
 
 # define ARM_CPU_PART_CORTEX_A72   0xD08
 # define ARM_CPU_PART_N1           0xD0C

@@ -89,6 +89,10 @@ void OPENSSL_cpuid_setup(void) {
     if (MIDR_IS_CPU_MODEL(OPENSSL_arm_midr, ARM_CPU_IMP_ARM, ARM_CPU_PART_V2)) {
       OPENSSL_armcap_P |= ARMV8_NEOVERSE_V2;
     }
+
+    if (MIDR_IMPLEMENTER(OPENSSL_arm_midr) == ARM_CPU_IMP_AMPERE) {
+      OPENSSL_armcap_P |= ARMV8_AMPEREONE;
+    }
   }
 
   static const unsigned long kDIT = 1 << 24;
