@@ -190,9 +190,9 @@ int ml_dsa_sign_internal(ml_dsa_params *params,
   if (!external_mu) {
     //constuct mu = h(tr | m') when not in prehash mode
     SHAKE_Init(&state, SHAKE256_BLOCKSIZE);
-    SHA3_Update(&state, tr, ML_DSA_TRBYTES);
-    SHA3_Update(&state, pre, prelen);
-    SHA3_Update(&state, m, mlen);
+    SHAKE_Absorb(&state, tr, ML_DSA_TRBYTES);
+    SHAKE_Absorb(&state, pre, prelen);
+    SHAKE_Absorb(&state, m, mlen);
     SHAKE_Final(mu, &state, ML_DSA_CRHBYTES);
   }
   else {
@@ -461,7 +461,7 @@ int ml_dsa_verify_internal(ml_dsa_params *params,
   if(ml_dsa_polyvecl_chknorm(params, &z, params->gamma1 - params->beta)) {
     return -1;
   }
-
+  
   if(!external_mu) {
     /* FIPS 204: line 6 Compute tr */
     SHAKE256(pk, params->public_key_bytes, tr, ML_DSA_TRBYTES);
@@ -469,9 +469,9 @@ int ml_dsa_verify_internal(ml_dsa_params *params,
     // Like crypto_sign_signature_internal, the processing of M' is performed
     // here, as opposed to within the external function.
     SHAKE_Init(&state, SHAKE256_BLOCKSIZE);
-    SHA3_Update(&state, tr, ML_DSA_TRBYTES);
-    SHA3_Update(&state, pre, prelen);
-    SHA3_Update(&state, m, mlen);
+    SHAKE_Absorb(&state, tr, ML_DSA_TRBYTES);
+    SHAKE_Absorb(&state, pre, prelen);
+    SHAKE_Absorb(&state, m, mlen);
     SHAKE_Final(mu, &state, ML_DSA_CRHBYTES);
   }
   else {
